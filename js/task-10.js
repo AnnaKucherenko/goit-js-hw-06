@@ -1,35 +1,42 @@
 const divEl = document.querySelector('#boxes');
-const inputEl = document.querySelector('input[type="number"]');
-console.log(inputEl.value);
-
-
-inputEl.addEventListener('input',  createBoxes);
-function createBoxes(event) {
+const inputEl = document.querySelector('input');
+const buttonCreate = document.querySelector('button[data-create]');
+const buttonDestroy = document.querySelector('button[data-destroy]');
+  
+inputEl.addEventListener('input',  handleNumberInput);
+function handleNumberInput(event) {
   event.preventDefault();
-  console.log(inputEl.value);
+    
+  buttonCreate.addEventListener('click',  createBoxes);
+  function createBoxes(amount) {
+    amount.preventDefault();
+    amount = inputEl.value; 
+    let widthBox = 20;
+    let heightBox = 20;
+    const boxArrey = [];
+    for (let i = 0; i < amount; i += 1){
+      let box = document.createElement('div');
+      widthBox = widthBox + 10;
+      heightBox = heightBox + 10;
+      
+      function getRandomHexColor() {
+        return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+      }
+      let color = getRandomHexColor();
+      box.style.backgroundColor = color;
+      box.style.width = widthBox + 'px';
+      box.style.height = heightBox + 'px';
+      boxArrey.push(box);
+    }
+    divEl.append(...boxArrey);
+  }
 }
 
-// function createBoxes(amount) {
-//   amount.preventDefault();
-//   amount = inputEl.value; 
-//   // console.log(amount);
-//   // const divEl = document.createElement('div');
-//   //   function getRandomHexColor() {
-//   //     return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-//   //   }
-//   //   let color = getRandomHexColor();
-//   //   divEl.style.backgroundColor = color;
-//   //   divEl.style.width = '30px';
-  
-
-// }
-
-
-
-// append(...divEl)
-
-
-
-
-// function destroyBoxes()
+buttonDestroy.addEventListener('click', destroyBoxes);
+function destroyBoxes(event) {
+  event.preventDefault();
+  while (divEl.firstChild) {
+    divEl.removeChild(divEl.firstChild);
+  }
+}
 
